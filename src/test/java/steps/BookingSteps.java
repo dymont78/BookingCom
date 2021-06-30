@@ -33,21 +33,15 @@ public class BookingSteps {
     @Then("Hotel {string} should be on the first line of search results page")
     public void hotelApartmentOnRepinaShouldBeOnTheFirstLineOfSearchResultsPage(String hotel) {
         $(By.xpath("//span[contains(text(),'Показать цены')]")).shouldBe(Condition.visible);
-//        ArrayList<String> hotelsNames = new ArrayList<>();
-//        for (SelenideElement element : $$(".sr-hotel__name")){
-//            hotelsNames.add(element.getText());
-//        }
-//        Assert.assertTrue(hotelsNames.contains(hotel));
         assertThat($$(".sr-hotel__name").texts(), hasItem(hotel));
     }
 
-    @Then("Hotel {string} rating is {double}")
-    public void hotelApartmentOnRepinaRatingIs(String hotel, double rate) {
-        String rateHotel = $(By.xpath(String.format("//span[contains(@class,'sr-hotel__name')][contains(text(), '%s')]", nameHotel))).getText();
-
-        String nameHotel = $(By.xpath("//span[contains(@class,'sr-hotel__name')][1]/ancestor::div[contains(@class,'sr_property_block_main_row')]//div[contains(@class,'bui-review-score__badge')]")).getText();
+    @Then("Hotel {string} rating is {string}")
+    public void hotelApartmentOnRepinaRatingIs(String hotel, String rate) {
+        String nameHotel = $(By.xpath("//span[contains(@class,'sr-hotel__name')][1]")).getText();
+        String rateHotel = $(By.xpath(String.format("//span[contains(@class,'sr-hotel__name')][contains(text(), '%s')]/ancestor::div[contains(@class,'sr_property_block_main_row')]//div[contains(@class,'bui-review-score__badge')]", nameHotel))).getText();
         System.out.println(nameHotel);
         System.out.println(rateHotel);
-
+        Assert.assertEquals(rateHotel, rate);
     }
 }
