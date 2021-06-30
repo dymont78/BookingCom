@@ -1,14 +1,11 @@
 package steps;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.SelenideElement;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 import org.testng.Assert;
-
-import java.util.ArrayList;
 
 import static com.codeborne.selenide.Selenide.*;
 import static org.hamcrest.MatcherAssert.assertThat;
