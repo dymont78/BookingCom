@@ -1,14 +1,11 @@
 package steps;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.SelenideElement;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 import org.testng.Assert;
-
-import java.util.ArrayList;
 
 import static com.codeborne.selenide.Selenide.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,6 +19,7 @@ public class BookingSteps {
     public void userIsLookingForHotelsInCity(String city) {
         this.city = city;
     }
+
     @When("User does search")
     public void userDoesSearch() {
         open("https://www.booking.com/");
@@ -31,13 +29,14 @@ public class BookingSteps {
 
     @Then("Hotel {string} should be on the first line of search results page")
     public void hotelApartmentOnRepinaShouldBeOnTheFirstLineOfSearchResultsPage(String hotel) {
-        $(By.xpath("//span[contains(text(),'Show prices')]")).shouldBe(Condition.visible);
-        ArrayList<String> hotelsNames = new ArrayList<>();
-        for (SelenideElement element : $$(".sr-hotel__name")){
-            hotelsNames.add(element.getText());
-        }
-        Assert.assertTrue(hotelsNames.contains(hotel));
-        //assertThat(hotelsNames, hasItem(hotel));
+        $(By.xpath("//span[contains(text(),'Показать цены')]")).shouldBe(Condition.visible);
+        assertThat($$(".sr-hotel__name").texts(), hasItem(hotel));
+    }
 
+    @Then("Hotel {string} rating is {string}")
+    public void hotelRating(String hotel, String rate) {
+        String nameHotel = $(By.xpath("//span[contains(@class,'sr-hotel__name')][1]")).getText();
+        String rateHotel = $(By.xpath(String.format("//span[contains(@class,'sr-hotel__name')][contains(text(), '%s')]/ancestor::div[contains(@class,'sr_property_block_main_row')]//div[contains(@class,'bui-review-score__badge')]", nameHotel))).getText();
+        Assert.assertEquals(rateHotel, rate);
     }
 }
