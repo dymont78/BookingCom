@@ -34,11 +34,9 @@ public class BookingSteps {
     }
 
     @Then("Hotel {string} rating is {string}")
-    public void hotelApartmentOnRepinaRatingIs(String hotel, String rate) {
+    public void hotelRating(String hotel, String rate) {
         String nameHotel = $(By.xpath("//span[contains(@class,'sr-hotel__name')][1]")).getText();
         String rateHotel = $(By.xpath(String.format("//span[contains(@class,'sr-hotel__name')][contains(text(), '%s')]/ancestor::div[contains(@class,'sr_property_block_main_row')]//div[contains(@class,'bui-review-score__badge')]", nameHotel))).getText();
-        System.out.println(nameHotel);
-        System.out.println(rateHotel);
         Assert.assertEquals(rateHotel, rate);
     }
 }
